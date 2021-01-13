@@ -2,37 +2,37 @@ from resources.lib.base.l3.language import _
 
 base = "https://web-api-pepper.horizon.tv/oesp/v2"
 base_three = "https://web-api-prod-obo.horizon.tv/oesp/v3"
-complete_base_url = '{base_url}/NL/nld'.format(base_url=base)
-complete_base_url_three = '{base_url}/NL/nld'.format(base_url=base_three)
+complete_base_url = '{base_url}/HU/hun'.format(base_url=base)
+complete_base_url_three = '{base_url}/HU/hun'.format(base_url=base_three)
 
 CONST_API_URLS = {}
 
 CONST_API_URLS[0] = {
     'base_url': complete_base_url + '/web',
-    'devices_url': "https://web-api-pepper.horizon.tv/oesp/v2/NL/nld/web/settopboxes/profile",
-    'search_url': "https://web-api-pepper.horizon.tv/oesp/v2/NL/nld/web/search/content",
-    'session_url': "https://web-api-pepper.horizon.tv/oesp/v2/NL/nld/web/session",
-    'channels_url': "https://web-api-pepper.horizon.tv/oesp/v2/NL/nld/web/channels",
+    'devices_url': "https://web-api-pepper.horizon.tv/oesp/v2/HU/hun/web/settopboxes/profile",
+    'search_url': "https://web-api-pepper.horizon.tv/oesp/v2/HU/hun/web/search/content",
+    'session_url': "https://web-api-pepper.horizon.tv/oesp/v2/HU/hun/web/session",
+    'channels_url': "https://web-api-pepper.horizon.tv/oesp/v2/HU/hun/web/channels",
     'token_url': '{complete_base_url}/web/license/token'.format(complete_base_url=complete_base_url),
     'widevine_url': '{complete_base_url}/web/license/eme'.format(complete_base_url=complete_base_url),
-    'listings_url': "https://web-api-pepper.horizon.tv/oesp/v2/NL/nld/web/listings",
-    'mediaitems_url': "https://web-api-pepper.horizon.tv/oesp/v2/NL/nld/web/mediaitems",
-    'mediagroupsfeeds_url': "https://web-api-pepper.horizon.tv/oesp/v2/NL/nld/web/mediagroups/feeds",
-    'watchlist_url': "https://web-api-pepper.horizon.tv/oesp/v2/NL/nld/web/watchlists/later"
+    'listings_url': "https://web-api-pepper.horizon.tv/oesp/v2/HU/hun/web/listings",
+    'mediaitems_url': "https://web-api-pepper.horizon.tv/oesp/v2/HU/hun/web/mediaitems",
+    'mediagroupsfeeds_url': "https://web-api-pepper.horizon.tv/oesp/v2/HU/hun/web/mediagroups/feeds",
+    'watchlist_url': "https://web-api-pepper.horizon.tv/oesp/v2/HU/hun/web/watchlists/later"
 }
 
 CONST_API_URLS[1] = {
     'base_url': complete_base_url_three + '/web',
-    'devices_url': "https://web-api-prod-obo.horizon.tv/oesp/v3/NL/nld/web/settopboxes/profile",
-    'search_url': "https://web-api-prod-obo.horizon.tv/oesp/v3/NL/nld/web/search/content",
-    'session_url': "https://web-api-prod-obo.horizon.tv/oesp/v3/NL/nld/web/session",
-    'channels_url': "https://web-api-prod-obo.horizon.tv/oesp/v3/NL/nld/web/channels",
+    'devices_url': "https://web-api-prod-obo.horizon.tv/oesp/v3/HU/hun/web/settopboxes/profile",
+    'search_url': "https://web-api-prod-obo.horizon.tv/oesp/v3/HU/hun/web/search/content",
+    'session_url': "https://web-api-prod-obo.horizon.tv/oesp/v3/HU/hun/web/session",
+    'channels_url': "https://web-api-prod-obo.horizon.tv/oesp/v3/HU/hun/web/channels",
     'token_url': '{complete_base_url_three}/web/license/token'.format(complete_base_url_three=complete_base_url_three),
     'widevine_url': '{complete_base_url_three}/web/license/eme'.format(complete_base_url_three=complete_base_url_three),
-    'listings_url': "https://web-api-prod-obo.horizon.tv/oesp/v3/NL/nld/web/listings",
-    'mediaitems_url': "https://web-api-prod-obo.horizon.tv/oesp/v3/NL/nld/web/mediaitems",
-    'mediagroupsfeeds_url': "https://web-api-prod-obo.horizon.tv/oesp/v3/NL/nld/web/mediagroups/feeds",
-    'watchlist_url': 'https://prod.spark.ziggogo.tv/nld/web/watchlist-service/v1/watchlists'
+    'listings_url': "https://web-api-prod-obo.horizon.tv/oesp/v3/HU/hun/web/listings",
+    'mediaitems_url': "https://web-api-prod-obo.horizon.tv/oesp/v3/HU/hun/web/mediaitems",
+    'mediagroupsfeeds_url': "https://web-api-prod-obo.horizon.tv/oesp/v3/HU/hun/web/mediagroups/feeds",
+    'watchlist_url': 'https://prod.spark.ziggogo.tv/hun/web/watchlist-service/v1/watchlists'
 }
 
 CONST_ALLOWED_HEADERS = {
@@ -44,7 +44,7 @@ CONST_ALLOWED_HEADERS = {
     'x-oesp-drm-schemeiduri'
 }
 
-CONST_BASE_URL = 'https://www.ziggogo.tv'
+CONST_BASE_URL = 'https://www.horizon.tv'
 
 CONST_BASE_HEADERS = {
     'Accept': '*/*',
