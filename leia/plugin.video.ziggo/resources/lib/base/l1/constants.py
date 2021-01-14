@@ -18,7 +18,7 @@ ADDON_ICON = ADDON.getAddonInfo('icon')
 ADDON_FANART = ADDON.getAddonInfo('fanart')
 #################
 
-CONST_DUT_EPG_BASE = 'https://raw.githubusercontent.com/lengyela89/dut-iptv.github.io/master/resource'
+CONST_DUT_EPG_BASE = 'https://raw.githubusercontent.com/lengyela89/dut-iptv.github.io/master/resources'
 CONST_DUT_EPG = '{base_epg}/{provider}'.format(base_epg=CONST_DUT_EPG_BASE, provider=PROVIDER_NAME)
 
 try:

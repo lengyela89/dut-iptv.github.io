@@ -1,0 +1,28 @@
+{
+	"858598439245": {
+		"id": "858598439245",
+		"assetid": "http://upc-hu-5084.live.horizon.tv/dash/M1_HD/manifest.mpd&%%&urn:orion:media:std:vhLYdbOE_wHt",
+		"name": "M1 HD",
+		"icon": "https://wp9-images-hu-dynamic.horizon.tv/HU/Logos/focused/461_85_c_4358a60096362522a82f67eb6540c361.png?w=110&h=150&mode=box",
+		"description": "",
+		"channelno": "1",
+		"erotica": "0",
+		"minimal": "1",
+		"replay": "1",
+		"regional": "0",
+		"home_only": "0"
+	},
+	"858598439192": {
+		"id": "858598439192",
+		"assetid": "http://upc-hu-5085.live.horizon.tv/dash/M2_HD/manifest.mpd&%%&urn:orion:media:std:VOmi0fOaQoSY",
+		"name": "M2/Petőfi HD",
+		"icon": "https://wp17-images-hu-dynamic.horizon.tv/HU/Logos/focused/461_86_c_c9681d1c865d31cdad3a6b0776022eb4.png?w=110&h=150&mode=box",
+		"description": "",
+		"channelno": "2",
+		"erotica": "0",
+		"minimal": "1",
+		"replay": "1",
+		"regional": "0",
+		"home_only": "0"
+	}
+}
