@@ -383,6 +383,15 @@ def save_all_live_prefs():
 
                 VIDEO_ADDON_PROFILE = ADDON_PROFILE.replace(ADDON_ID, type)
                 addon_prefs = load_file(VIDEO_ADDON_PROFILE + 'prefs.json', ext=True, isJSON=True)
+                addon_profile = load_file(VIDEO_ADDON_PROFILE + 'profile.json', ext=True, isJSON=True)
+
+                ziggov3 = 0
+
+                try:
+                    if int(addon_profile['v3']) == 1:
+                        ziggov3 = 1
+                except:
+                    pass
 
                 for currow in type_channels:
                     row = type_channels[currow]
@@ -392,7 +401,7 @@ def save_all_live_prefs():
                     for currow2 in all_channels:
                         row2 = all_channels[currow2]
 
-                        if unicode(row2[type + '_id']) == unicode(row['id']):
+                        if (ziggov3 == 0 and unicode(row2[type + '_id']) == unicode(row['id'])) or (ziggov3 == 1 and check_key(row2, type + '_idv3') and unicode(row2[type + '_idv3']) == unicode(row['id'])):
                             all_id = unicode(currow2)
 
                     if not all_id:
@@ -448,6 +457,15 @@ def save_all_replay_prefs():
 
                 VIDEO_ADDON_PROFILE = ADDON_PROFILE.replace(ADDON_ID, type)
                 addon_prefs = load_file(VIDEO_ADDON_PROFILE + 'prefs.json', ext=True, isJSON=True)
+                addon_profile = load_file(VIDEO_ADDON_PROFILE + 'profile.json', ext=True, isJSON=True)
+
+                ziggov3 = 0
+
+                try:
+                    if int(addon_profile['v3']) == 1:
+                        ziggov3 = 1
+                except:
+                    pass
 
                 for currow in type_channels:
                     row = type_channels[currow]
@@ -457,7 +475,7 @@ def save_all_replay_prefs():
                     for currow2 in all_channels:
                         row2 = all_channels[currow2]
 
-                        if unicode(row2[type + '_id']) == unicode(row['id']):
+                        if (ziggov3 == 0 and unicode(row2[type + '_id']) == unicode(row['id'])) or (ziggov3 == 1 and check_key(row2, type + '_idv3') and unicode(row2[type + '_idv3']) == unicode(row['id'])):
                             all_id = unicode(currow2)
 
                     if not all_id or not check_key(prefs, all_id):
@@ -660,11 +678,28 @@ def change_live_channel(id, **kwargs):
 
             VIDEO_ADDON_PROFILE = ADDON_PROFILE.replace(ADDON_ID, type)
             addon_prefs = load_file(VIDEO_ADDON_PROFILE + 'prefs.json', ext=True, isJSON=True)
+            addon_profile = load_file(VIDEO_ADDON_PROFILE + 'profile.json', ext=True, isJSON=True)
+
+            ziggov3 = 0
+
+            try:
+                if int(addon_profile['v3']) == 1:
+                    ziggov3 = 1
+            except:
+                pass
 
             row2 = all_channels[id]
+            
+            if ziggov3 == 1:
+                try:
+                    type_id = unicode(row2[type + '_idv3'])
+                except:
+                    type_id = ''
+            else:
+                type_id = unicode(row2[type + '_id'])
 
-            if len(unicode(row2[type + '_id'])) > 0:
-                row = type_channels[unicode(row2[type + '_id'])]
+            if len(type_id) > 0:
+                row = type_channels[type_id]
 
                 disabled = False
 
@@ -705,9 +740,17 @@ def change_live_channel(id, **kwargs):
 
             type_channels = load_channels(type=select_list[selected])
             row2 = all_channels[id]
-
-            if len(unicode(row2[mod_pref['live_addonid'] + '_id'])) > 0:
-                row = type_channels[unicode(row2[mod_pref['live_addonid'] + '_id'])]
+            
+            if ziggov3 == 1:
+                try:
+                    type_id = unicode(row2[mod_pref['live_addonid'] + '_idv3'])
+                except:
+                    type_id = ''
+            else:
+                type_id = unicode(row2[mod_pref['live_addonid'] + '_id'])
+            
+            if len(type_id) > 0:
+                row = type_channels[type_id]
 
                 mod_pref['live_channelid'] = row['id']
                 mod_pref['live_channelassetid'] = row['assetid']
@@ -740,11 +783,28 @@ def change_replay_channel(id, **kwargs):
 
             VIDEO_ADDON_PROFILE = ADDON_PROFILE.replace(ADDON_ID, type)
             addon_prefs = load_file(VIDEO_ADDON_PROFILE + 'prefs.json', ext=True, isJSON=True)
+            addon_profile = load_file(VIDEO_ADDON_PROFILE + 'profile.json', ext=True, isJSON=True)
+
+            ziggov3 = 0
+
+            try:
+                if int(addon_profile['v3']) == 1:
+                    ziggov3 = 1
+            except:
+                pass
 
             row2 = all_channels[id]
+            
+            if ziggov3 == 1:
+                try:
+                    type_id = unicode(row2[type + '_idv3'])
+                except:
+                    type_id = ''
+            else:
+                type_id = unicode(row2[type + '_id'])
 
-            if len(unicode(row2[type + '_id'])) > 0:
-                row = type_channels[unicode(row2[type + '_id'])]
+            if len(type_id) > 0:
+                row = type_channels[type_id]
 
                 disabled = False
 
@@ -780,9 +840,17 @@ def change_replay_channel(id, **kwargs):
 
             type_channels = load_channels(type=select_list[selected])
             row2 = all_channels[id]
+            
+            if ziggov3 == 1:
+                try:
+                    type_id = unicode(row2[mod_pref['replay_addonid'] + '_idv3'])
+                except:
+                    type_id = ''
+            else:
+                type_id = unicode(row2[mod_pref['replay_addonid'] + '_id'])
 
-            if len(unicode(row2[mod_pref['replay_addonid'] + '_id'])) > 0:
-                row = type_channels[unicode(row2[mod_pref['replay_addonid'] + '_id'])]
+            if len(type_id) > 0:
+                row = type_channels[type_id]
 
                 mod_pref['replay_channelid'] = row['id']
                 mod_pref['replay_channelassetid'] = row['assetid']

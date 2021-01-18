@@ -689,8 +689,8 @@ def play_video(type=None, channel=None, id=None, data=None, title=None, from_beg
     write_file(file='stream_duration', data=info['duration'], isJSON=False)
 
     listitem = plugin.Item(
-        label = unicode(info['label1']),
-        label2 = unicode(info['label2']),
+        label = info['label1'],
+        label2 = info['label2'],
         art = {
             'thumb': unicode(info['image']),
             'fanart': unicode(info['image_large'])
@@ -701,11 +701,11 @@ def play_video(type=None, channel=None, id=None, data=None, title=None, from_beg
             'writer': info['writer'],
             'director': info['director'],
             'genre': info['genres'],
-            'plot': unicode(info['description']),
+            'plot': info['description'],
             'duration': info['duration'],
             'mediatype': 'video',
             'year': info['year'],
-            'sorttitle': unicode(info['label1']).upper(),
+            'sorttitle': info['label1'].upper(),
         },
         path = path,
         headers = CDMHEADERS,

@@ -16,16 +16,16 @@ except NameError:
     unicode = str
 
 def plugin_ask_for_creds(creds):
-    username = gui.numeric(message=_.ASK_USERNAME, default=creds['username']).strip()
-
-    if not len(username) > 0:
+    username = unicode(gui.input(message=_.ASK_USERNAME, default=creds['username'])).strip()
+    
+    if not len(unicode(username)) > 0:
         gui.ok(message=_.EMPTY_USER, heading=_.LOGIN_ERROR_TITLE)
 
         return {'result': False, 'username': '', 'password': ''}
 
-    password = gui.numeric(message=_.ASK_PASSWORD).strip()
+    password = unicode(gui.input(message=_.ASK_PASSWORD, hide_input=True)).strip()
 
-    if not len(password) > 0:
+    if not len(unicode(password)) > 0:
         gui.ok(message=_.EMPTY_PASS, heading=_.LOGIN_ERROR_TITLE)
 
         return {'result': False, 'username': '', 'password': ''}

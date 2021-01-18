@@ -190,16 +190,23 @@ def api_get_list(start, end, channels):
         if os.path.isfile(tmp):
             from zipfile import ZipFile
 
-            fixBadZipfile(tmp)
-
             try:
                 with ZipFile(tmp, 'r') as zipObj:
                    zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
             except:
+                try:
+                    fixBadZipfile(tmp)
+
+                    with ZipFile(tmp, 'r') as zipObj:
+                        zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
+                except:
+                    try:
                 from resources.lib.base.l1.zipfile import ZipFile as ZipFile2
 
                 with ZipFile2(tmp, 'r') as zipObj:
                    zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
+                    except:
+                        return None
 
             if os.path.isfile(ADDON_PROFILE + file):
                 data3 = load_file(file=file, isJSON=True)
@@ -272,16 +279,23 @@ def api_get_list_by_first(first, start, end, channels):
         if os.path.isfile(tmp):
             from zipfile import ZipFile
 
-            fixBadZipfile(tmp)
-
             try:
                 with ZipFile(tmp, 'r') as zipObj:
                    zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
             except:
+                try:
+                    fixBadZipfile(tmp)
+                    
+                    with ZipFile(tmp, 'r') as zipObj:
+                        zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
+                except:
+                    try:
                 from resources.lib.base.l1.zipfile import ZipFile as ZipFile2
 
                 with ZipFile2(tmp, 'r') as zipObj:
                    zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
+                    except:
+                        return None
 
             if os.path.isfile(ADDON_PROFILE + file):
                 data = load_file(file=file, isJSON=True)
@@ -356,16 +370,24 @@ def api_get_vod_by_type(type, character, subscription_filter):
         if os.path.isfile(tmp):
             from zipfile import ZipFile
 
-            fixBadZipfile(tmp)
-
             try:
                 with ZipFile(tmp, 'r') as zipObj:
                    zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
             except:
+                try:
+                    fixBadZipfile(tmp)
+
+                    with ZipFile(tmp, 'r') as zipObj:
+                        zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
+
+                except:
+                    try:
                 from resources.lib.base.l1.zipfile import ZipFile as ZipFile2
 
                 with ZipFile2(tmp, 'r') as zipObj:
                    zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
+                    except:
+                        return None
 
             if os.path.isfile(ADDON_PROFILE + file):
                 data = load_file(file=file, isJSON=True)

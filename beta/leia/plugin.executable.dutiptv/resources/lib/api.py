@@ -3,7 +3,8 @@ import base64, json, os, requests, xbmc
 from collections import OrderedDict
 from resources.lib.base.l1.constants import ADDON_ID, ADDON_PROFILE, CONST_DUT_EPG_BASE, SESSION_CHUNKSIZE
 from resources.lib.base.l2.log import log
-from resources.lib.util import check_key, clear_cache, fixBadZipfile, is_file_older_than_x_days, load_file, load_profile, write_file
+from resources.lib.base.l3.util import check_key, fixBadZipfile, is_file_older_than_x_days, load_file, load_profile, write_file
+from resources.lib.util import clear_cache_connector
 
 try:
     unicode
@@ -40,21 +41,28 @@ def api_get_channels():
 
         if os.path.isfile(tmp):
             from zipfile import ZipFile
-                        
-            fixBadZipfile(tmp)
 
             try:
                 with ZipFile(tmp, 'r') as zipObj:
-                   zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
+                    zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
             except:
-                from resources.lib.base.l1.zipfile import ZipFile as ZipFile2
-                
-                with ZipFile2(tmp, 'r') as zipObj:
-                   zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
+                try:
+                    fixBadZipfile(tmp)
+
+                    with ZipFile(tmp, 'r') as zipObj:
+                        zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
+                except:
+                    try:
+                        from resources.lib.base.l1.zipfile import ZipFile as ZipFile2
+
+                        with ZipFile2(tmp, 'r') as zipObj:
+                            zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
+                    except:
+                        return False
         else:
             return False
 
-        clear_cache()
+        clear_cache_connector()
 
     return True
 
@@ -69,7 +77,7 @@ def api_get_all_epg():
                 if api_get_epg_by_addon(profile_settings['addon' + unicode(x)].replace('plugin.video.', '')) == True:
                     updated = True
 
-    clear_cache()
+    clear_cache_connector()
 
     if updated == True:
         return True
@@ -90,7 +98,7 @@ def api_get_epg_by_addon(addon):
 
     epg_url = '{dut_epg_url}/{type}.epg.zip'.format(dut_epg_url=CONST_DUT_EPG_BASE, type=type)
 
-    if type == 'z':
+    if addon == 'ziggo':
         VIDEO_ADDON_PROFILE = ADDON_PROFILE.replace(ADDON_ID, 'plugin.video.ziggo')
         profile = load_file(VIDEO_ADDON_PROFILE + 'profile.json', ext=True, isJSON=True)
 
@@ -116,18 +124,25 @@ def api_get_epg_by_addon(addon):
 
         if os.path.isfile(tmp):
             from zipfile import ZipFile
-                        
-            fixBadZipfile(tmp)
 
             try:
                 with ZipFile(tmp, 'r') as zipObj:
-                   zipObj.extractall(ADDON_PROFILE + "cache" + os.sep + unicode(addon) + os.sep)
+                    zipObj.extractall(ADDON_PROFILE + "cache" + os.sep + unicode(addon) + os.sep)
             except:
-                from resources.lib.base.l1.zipfile import ZipFile as ZipFile2
-                
-                with ZipFile2(tmp, 'r') as zipObj:
-                   zipObj.extractall(ADDON_PROFILE + "cache" + os.sep + unicode(addon) + os.sep)
+                try:
+                    fixBadZipfile(tmp)
+
+                    with ZipFile(tmp, 'r') as zipObj:
+                        zipObj.extractall(ADDON_PROFILE + "cache" + os.sep + unicode(addon) + os.sep)
+                except:
+                    try:
+                        from resources.lib.base.l1.zipfile import ZipFile as ZipFile2
+
+                        with ZipFile2(tmp, 'r') as zipObj:
+                            zipObj.extractall(ADDON_PROFILE + "cache" + os.sep + unicode(addon) + os.sep)
+                    except:
+                        return False
         else:
             return False
-            
+
     return True

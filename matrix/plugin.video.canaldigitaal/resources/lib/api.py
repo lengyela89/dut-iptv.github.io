@@ -32,10 +32,12 @@ def api_get_session(force=0):
     #    return True
     #elif force == 1 and not profile_settings['last_login_success'] == 1:
     #    return False
+    
+    headers = {'Authorization': 'Bearer ' + profile_settings['session_token']}
 
-    capi_url = '{base_url}/m7be2iphone/capi.aspx?z=pg&a=cds&lng=nl'.format(base_url=CONST_BASE_URL)
+    capi_url = '{api_url}/settings'.format(api_url=CONST_DEFAULT_API)
 
-    download = api_download(url=capi_url, type='get', headers=None, data=None, json_data=False, return_json=False, allow_redirects=False)
+    download = api_download(url=capi_url, type='get', headers=headers, data=None, json_data=False, return_json=False, allow_redirects=False)
     data = download['data']
     code = download['code']
 

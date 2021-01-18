@@ -21,9 +21,28 @@ def notification(message, heading=None, icon=None, time=3000, sound=False):
 def refresh():
     xbmc.executebuiltin('Container.Refresh')
 
-def select(heading=None, options=None, **kwargs):
+def select(heading=None, options=None, autoclose=None, **kwargs):
     heading = _make_heading(heading)
-    return xbmcgui.Dialog().select(heading, options, **kwargs)
+    options = options or []
+
+    if get_kodi_version() < 17:
+        kwargs.pop('preselect', None)
+        kwargs.pop('useDetails', None)
+
+    if autoclose:
+        kwargs['autoclose'] = autoclose
+
+    _options = []
+    for option in options:
+        if issubclass(type(option), Item):
+            option = option.label if get_kodi_version() < 17 else option.get_li()
+
+        _options.append(option)
+
+    return xbmcgui.Dialog().select(heading, _options, **kwargs)
+
+def redirect(location):
+    xbmc.executebuiltin('Container.Update({},replace)'.format(location))
 
 def exception(heading=None):
     if not heading:
@@ -42,11 +61,48 @@ def exception(heading=None):
 
     text(error, heading=heading)
 
-@contextmanager
-def progress(message, heading=None, percent=0):
+class Progress(object):
+    def __init__(self, message, heading=None, percent=0, background=False):
+        heading = _make_heading(heading)
+        if background:
+            self._dialog = xbmcgui.DialogProgressBG()
+        else:
+            self._dialog = xbmcgui.DialogProgress()
+
+        self._dialog.create(heading, *self._get_args(message))
+        self.update(percent)
+
+    def update(self, percent=0, message=None):
+        self._dialog.update(int(percent), *self._get_args(message))
+
+    def _get_args(self, message):
+        if message is not None and get_kodi_version() < 19:
+            args = message.split('\n')[:3]
+            while len(args) < 3:
+                args.append(' ')
+        else:
+            args = [message]
+
+        return args
+
+    def iscanceled(self):
+        return self._dialog.iscanceled()
+
+    def close(self):
+        self._dialog.close()
+
+def progressbg(message='', heading=None, percent=0):
     heading = _make_heading(heading)
-    dialog = xbmcgui.DialogProgress()
+
+    dialog = xbmcgui.DialogProgressBG()
     dialog.create(heading, message)
+    dialog.update(int(percent))
+
+    return dialog
+
+@contextmanager
+def progress(message='', heading=None, percent=0):
+    dialog = Progress(message, heading)
     dialog.update(percent)
 
     try:
@@ -61,7 +117,14 @@ def input(message, default='', hide_input=False, **kwargs):
     return xbmcgui.Dialog().input(message, default, **kwargs)
 
 def numeric(message, default='', type=0, **kwargs):
-    return xbmcgui.Dialog().numeric(type, message, defaultt=str(default), **kwargs)
+    try:
+        return int(xbmcgui.Dialog().numeric(type, message, defaultt=str(default), **kwargs))
+    except:
+        return None
+
+def error(message, heading=None):
+    heading = heading or _(_.PLUGIN_ERROR, addon=ADDON_NAME)
+    return ok(message, heading)
 
 def ok(message, heading=None):
     heading = _make_heading(heading)
@@ -89,25 +152,30 @@ def get_kodi_version():
 class Item(object):
     def __init__(self, id=None, label='', label2='', path=None, playable=False, info=None, context=None,
             headers=None, cookies=None, properties=None, is_folder=None, art=None, inputstream=None,
-            video=None, audio=None, subtitles=None):
+            video=None, audio=None, subtitles=None, specialsort=None):
 
         self.id = id
         self.label = label
         self.label2 = label2
         self.path = path
-        self.info = info or {}
+        self.info = dict(info or {})
+        self.headers = dict(headers or {})
+        self.cookies = dict(cookies or {})
+        self.properties = dict(properties or {})
+        self.art = dict(art or {})
+        self.video = dict(video or {})
+        self.audio = dict(audio or {})
+        self.context = list(context or [])
+        self.subtitles = list(subtitles or [])
         self.playable = playable
-        self.context = context or []
-        self.headers = headers or {}
-        self.cookies = cookies or {}
-        self.properties = properties or {}
-        self.art = art or {}
-        self.video = video or {}
-        self.audio = audio or {}
-        self.subtitles = subtitles or []
         self.inputstream = inputstream
         self.mimetype = None
         self._is_folder = is_folder
+        self.specialsort = specialsort
+
+    def update(self, **kwargs):
+        for key in kwargs:
+            setattr(self, key, kwargs[key])
 
     @property
     def is_folder(self):
@@ -119,24 +187,22 @@ class Item(object):
 
     def get_url_headers(self, only_user_agent=False):
         string = ''
-
         for key in self.headers:
             if only_user_agent == False or key == 'User-Agent':
-                string += '{0}={1}&'.format(key, quote(str(self.headers[key])))
+                string += u'{0}={1}&'.format(key, quote(u'{}'.format(self.headers[key]).encode('utf8')))
 
         if self.cookies:
             string += 'Cookie='
             for key in self.cookies:
-                string += '{0}%3D{1}; '.format(key, quote(str(self.cookies[key])))
+                string += u'{0}%3D{1}; '.format(key, quote(u'{}'.format(self.cookies[key]).encode('utf8')))
 
         return string.strip('&')
 
     def get_li(self):
-        try:
-            #KODI 18+
-            li = xbmcgui.ListItem(offscreen=True)
-        except:
+        if get_kodi_version() < 18:
             li = xbmcgui.ListItem()
+        else:
+            li = xbmcgui.ListItem(offscreen=True)
 
         if self.label:
             li.setLabel(self.label)
@@ -154,6 +220,9 @@ class Item(object):
 
         if self.info:
             li.setInfo('video', self.info)
+
+        if self.specialsort:
+            li.setProperty('specialsort', self.specialsort)
 
         if self.video:
             li.addStreamInfo('video', self.video)
@@ -183,15 +252,15 @@ class Item(object):
             li.setSubtitles(self.subtitles)
 
         for key in self.properties:
-            li.setProperty(key, str(self.properties[key]))
+            li.setProperty(key, u'{}'.format(self.properties[key]))
 
         headers = self.get_url_headers()
 
         if self.inputstream and self.inputstream.check():
-            if get_kodi_version() > 18:
-                li.setProperty('inputstream', 'inputstream.adaptive')
-            else:
+            if get_kodi_version() < 19:
                 li.setProperty('inputstreamaddon', 'inputstream.adaptive')
+            else:
+                li.setProperty('inputstream', 'inputstream.adaptive')
 
             li.setProperty('inputstream.adaptive.manifest_type', self.inputstream.manifest_type)
 
@@ -228,8 +297,8 @@ class Item(object):
             li.setMimeType(self.mimetype)
             li.setContentLookup(False)
 
-        if headers and self.path and self.path.startswith('http'):
-            self.path += '|{}'.format(headers)
+        if headers and '|' not in self.path:
+            self.path = u'{}|{}'.format(self.path, headers)
 
         if self.path:
             li.setPath(self.path)

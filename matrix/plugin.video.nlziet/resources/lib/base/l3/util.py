@@ -200,7 +200,11 @@ def find_highest_bandwidth(xml):
 def fixBadZipfile(zipFile):
     f = open(zipFile, 'r+b')
     data = f.read()
-    pos = data.find('\x50\x4b\x05\x06') # End of central directory signature
+    
+    try:
+        pos = data.find(b'\x50\x4b\x05\x06') # End of central directory signature
+    except:
+        pos = data.find('\x50\x4b\x05\x06')
     
     if (pos > 0):
         f.seek(pos + 22)   # size of 'ZIP end of central directory record'

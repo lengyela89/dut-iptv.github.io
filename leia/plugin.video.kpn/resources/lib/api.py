@@ -144,12 +144,20 @@ def api_play_url(type, channel=None, id=None, video_data=None, from_beginning=0,
     typestr = 'PROGRAM'
     info = []
     program_id = None
-    info_url = None
 
     if type == 'channel':
         play_url = '{api_url}/CONTENT/VIDEOURL/LIVE/{channel}/{id}/?deviceId={device_key}&profile=G02&time={time}'.format(api_url=CONST_DEFAULT_API, channel=channel, id=id, device_key=profile_settings['devicekey'], time=militime)
 
-        info_url = '{api_url}/TRAY/AVA/TRENDING/NOW?from=0&to=0&filter_channelIds={channel}&maxResults=1'.format(api_url=CONST_DEFAULT_API, channel=channel)
+        if not pvr == 1:
+            program_url = '{api_url}/TRAY/SEARCH/PROGRAM?maxResults=1&filter_airingEndTime=now&filter_channelIds={channel}'.format(api_url=CONST_DEFAULT_API, channel=channel)
+
+            download = api_download(url=program_url, type='get', headers=None, data=None, json_data=False, return_json=True)
+            data = download['data']
+            code = download['code']
+
+            if code and code == 200 and data and check_key(data, 'resultCode') and data['resultCode'] == 'OK' and check_key(data, 'resultObj') and check_key(data['resultObj'], 'containers'):
+                for row in data['resultObj']['containers']:
+                    program_id = row['id']
     else:
         if type == 'program':
             typestr = "PROGRAM"
@@ -186,10 +194,8 @@ def api_play_url(type, channel=None, id=None, video_data=None, from_beginning=0,
 
         play_url = '{api_url}/CONTENT/VIDEOURL/{type}/{id}/{asset_id}/?deviceId={device_key}&profile=G02&time={time}'.format(api_url=CONST_DEFAULT_API, type=typestr, id=id, asset_id=asset_id, device_key=profile_settings['devicekey'], time=militime)
 
-    if (program_id or info_url) and not pvr == 1:
-        if not info_url:
-            info_url = '{api_url}/CONTENT/DETAIL/{type}/{id}'.format(api_url=CONST_DEFAULT_API, type=typestr, id=program_id)
-
+    if program_id and not pvr == 1:
+        info_url = '{api_url}/CONTENT/DETAIL/{type}/{id}'.format(api_url=CONST_DEFAULT_API, type=typestr, id=program_id)
         download = api_download(url=info_url, type='get', headers=None, data=None, json_data=False, return_json=True)
         data = download['data']
         code = download['code']

@@ -34,7 +34,7 @@
       </assets>
     </extension>
   </addon>
-  <addon id="plugin.executable.dutiptv" name="Dut-IPTV Simple IPTV Connector" provider-name="Anon" version="0.9.139">
+  <addon id="plugin.executable.dutiptv" name="Dut-IPTV Simple IPTV Connector" provider-name="Anon" version="0.9.141">
     <requires>
       <import addon="xbmc.python" version="2.26.0"/>
       <import addon="inputstream.adaptive" version="2.4.4"/>
@@ -71,7 +71,7 @@
       <description lang="en">Add-ons for Kodi</description>
     </extension>
   </addon>
-  <addon id="plugin.video.tmobile" name="T-Mobile TV" provider-name="Anon" version="0.9.139">
+  <addon id="plugin.video.tmobile" name="T-Mobile TV" provider-name="Anon" version="0.9.141">
     <requires>
       <import addon="xbmc.python" version="2.26.0"/>
       <import addon="inputstream.adaptive" version="2.4.4"/>
@@ -96,7 +96,7 @@
       </assets>
     </extension>
   </addon>
-  <addon id="plugin.video.nlziet" name="NLZiet" provider-name="Anon" version="0.9.139">
+  <addon id="plugin.video.nlziet" name="NLZiet" provider-name="Anon" version="0.9.141">
     <requires>
       <import addon="xbmc.python" version="2.26.0"/>
       <import addon="inputstream.adaptive" version="2.4.4"/>
@@ -164,7 +164,7 @@
       <platform>all</platform>
     </extension>
   </addon>
-  <addon id="plugin.video.canaldigitaal" name="Canal Digitaal IPTV" provider-name="Anon" version="0.9.139">
+  <addon id="plugin.video.canaldigitaal" name="Canal Digitaal IPTV" provider-name="Anon" version="0.9.141">
     <requires>
       <import addon="xbmc.python" version="2.26.0"/>
       <import addon="inputstream.adaptive" version="2.4.4"/>
@@ -189,7 +189,7 @@
       </assets>
     </extension>
   </addon>
-  <addon id="plugin.video.ziggo" name="Ziggo GO" provider-name="Anon" version="0.9.139">
+  <addon id="plugin.video.ziggo" name="Ziggo GO" provider-name="Anon" version="0.9.141">
     <requires>
       <import addon="xbmc.python" version="2.26.0"/>
       <import addon="inputstream.adaptive" version="2.4.4"/>
@@ -214,7 +214,7 @@
       </assets>
     </extension>
   </addon>
-  <addon id="plugin.video.kpn" name="KPN ITV" provider-name="Anon" version="0.9.139">
+  <addon id="plugin.video.kpn" name="KPN ITV" provider-name="Anon" version="0.9.141">
     <requires>
       <import addon="xbmc.python" version="2.26.0"/>
       <import addon="inputstream.adaptive" version="2.4.4"/>

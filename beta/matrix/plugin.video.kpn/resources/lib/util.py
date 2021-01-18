@@ -23,14 +23,14 @@ def plugin_ask_for_creds(creds):
         if unicode(creds['username']).isnumeric():
             creds['username'] = ''
 
-        username = gui.input(message=_.ASK_USERNAME2, default=creds['username']).strip()
+        username = unicode(gui.input(message=_.ASK_USERNAME2, default=creds['username'])).strip()
     else:
         if not unicode(creds['username']).isnumeric():
             creds['username'] = ''
 
-        username = gui.numeric(message=_.ASK_USERNAME, default=creds['username']).strip()
+        username = unicode(gui.input(message=_.ASK_USERNAME, default=creds['username'])).strip()
 
-    if not len(username) > 0:
+    if not len(unicode(username)) > 0:
         if email_or_pin:
             gui.ok(message=_.EMPTY_USER2, heading=_.LOGIN_ERROR_TITLE)
         else:
@@ -39,11 +39,11 @@ def plugin_ask_for_creds(creds):
         return {'result': False, 'username': '', 'password': ''}
 
     if email_or_pin:
-        password = gui.input(message=_.ASK_PASSWORD2, hide_input=True).strip()
+        password = unicode(gui.input(message=_.ASK_PASSWORD2, hide_input=True)).strip()
     else:
-        password = gui.numeric(message=_.ASK_PASSWORD).strip()
+        password = unicode(gui.input(message=_.ASK_PASSWORD, hide_input=True)).strip()
 
-    if not len(password) > 0:
+    if not len(unicode(password)) > 0:
         if email_or_pin:
             gui.ok(message=_.EMPTY_PASS2, heading=_.LOGIN_ERROR_TITLE)
         else:

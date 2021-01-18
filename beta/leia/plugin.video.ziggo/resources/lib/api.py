@@ -209,11 +209,16 @@ def api_login():
     profile_settings = load_profile(profile_id=1)
 
     try:
+        if len(unicode(profile_settings['v3'])) == 0:
+            profile_settings['v3'] = 0
+    except:
+        profile_settings['v3'] = 0
+
+    try:
         profile_settings['access_token'] = ''
         profile_settings['ziggo_profile_id'] = ''
         profile_settings['household_id'] = ''
-        profile_settings['watchlist_id'] = ''
-        profile_settings['v3'] = 0
+        profile_settings['watchlist_id'] = ''        
         save_profile(profile_id=1, profile=profile_settings)
     except:
         pass
@@ -226,6 +231,8 @@ def api_login():
     download = api_download(url=CONST_API_URLS[int(profile_settings['v3'])]['session_url'], type='post', headers=HEADERS, data={"username": username, "password": password}, json_data=True, return_json=True)
     data = download['data']
     code = download['code']
+    
+    switch_backoffice = False
 
     if code and data and check_key(data, 'reason') and data['reason'] == 'wrong backoffice':
         if int(profile_settings['v3']) == 0:
@@ -242,6 +249,8 @@ def api_login():
             os.remove(ADDON_PROFILE + "prefs.json")
         except:
             pass
+            
+        switch_backoffice = True
 
         download = api_download(url=CONST_API_URLS[int(profile_settings['v3'])]['session_url'], type='post', headers=HEADERS, data={"username": username, "password": password}, json_data=True, return_json=True)
         data = download['data']
