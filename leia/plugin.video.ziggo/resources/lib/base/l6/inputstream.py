@@ -254,10 +254,10 @@ def _download(url, dst, dst_path, arch, md5=None):
                     decoded_file.write(decoded_string)
             else:
                 from zipfile import ZipFile
-                                
+
                 try:
                     with ZipFile(tmp, 'r') as zipObj:
-                       zipObj.extractall(ADDON_PROFILE + "tmp" + os.sep)
+                        zipObj.extractall(ADDON_PROFILE + "tmp" + os.sep)
                 except:
                     try:
                         fixBadZipfile(tmp)
@@ -266,13 +266,13 @@ def _download(url, dst, dst_path, arch, md5=None):
                             zipObj.extractall(ADDON_PROFILE + "tmp" + os.sep)
                     except:
                         try:
-                    from resources.lib.base.l1.zipfile import ZipFile as ZipFile2
-                    
-                    with ZipFile2(tmp, 'r') as zipObj:
-                       zipObj.extractall(ADDON_PROFILE + "tmp" + os.sep)
+                            from resources.lib.base.l1.zipfile import ZipFile as ZipFile2
+
+                            with ZipFile2(tmp, 'r') as zipObj:
+                                zipObj.extractall(ADDON_PROFILE + "tmp" + os.sep)
                         except:
                             return False
-                       
+
                 if os.path.isfile(ADDON_PROFILE + "tmp" + os.sep + dst):
                     shutil.copy(ADDON_PROFILE + "tmp" + os.sep + dst, dst_path)
 

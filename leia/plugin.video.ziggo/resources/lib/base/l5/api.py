@@ -192,7 +192,7 @@ def api_get_list(start, end, channels):
 
             try:
                 with ZipFile(tmp, 'r') as zipObj:
-                   zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
+                    zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
             except:
                 try:
                     fixBadZipfile(tmp)
@@ -201,10 +201,10 @@ def api_get_list(start, end, channels):
                         zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
                 except:
                     try:
-                from resources.lib.base.l1.zipfile import ZipFile as ZipFile2
+                        from resources.lib.base.l1.zipfile import ZipFile as ZipFile2
 
-                with ZipFile2(tmp, 'r') as zipObj:
-                   zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
+                        with ZipFile2(tmp, 'r') as zipObj:
+                            zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
                     except:
                         return None
 
@@ -281,7 +281,7 @@ def api_get_list_by_first(first, start, end, channels):
 
             try:
                 with ZipFile(tmp, 'r') as zipObj:
-                   zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
+                    zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
             except:
                 try:
                     fixBadZipfile(tmp)
@@ -290,10 +290,10 @@ def api_get_list_by_first(first, start, end, channels):
                         zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
                 except:
                     try:
-                from resources.lib.base.l1.zipfile import ZipFile as ZipFile2
+                        from resources.lib.base.l1.zipfile import ZipFile as ZipFile2
 
-                with ZipFile2(tmp, 'r') as zipObj:
-                   zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
+                        with ZipFile2(tmp, 'r') as zipObj:
+                            zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
                     except:
                         return None
 
@@ -372,7 +372,7 @@ def api_get_vod_by_type(type, character, subscription_filter):
 
             try:
                 with ZipFile(tmp, 'r') as zipObj:
-                   zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
+                    zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
             except:
                 try:
                     fixBadZipfile(tmp)
@@ -382,10 +382,10 @@ def api_get_vod_by_type(type, character, subscription_filter):
 
                 except:
                     try:
-                from resources.lib.base.l1.zipfile import ZipFile as ZipFile2
+                        from resources.lib.base.l1.zipfile import ZipFile as ZipFile2
 
-                with ZipFile2(tmp, 'r') as zipObj:
-                   zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
+                        with ZipFile2(tmp, 'r') as zipObj:
+                            zipObj.extractall(ADDON_PROFILE + "cache" + os.sep)
                     except:
                         return None
 
